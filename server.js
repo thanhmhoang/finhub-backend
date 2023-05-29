@@ -1,19 +1,28 @@
 const express = require('express');
-// const allRoutes = require('./controllers');
-const cors = require("cors")
 // const routes = require('./routes');
 const db = require('./config/connection');
-
+const cors = require('cors')
+const { Server } = require("socket.io");
 
 const cwd = process.cwd();
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(cors())
 const server = require('http').Server(app)
 
-const io = require('socket.io')(server)
-// const ioConnection = require('./sockets/ioConnection')
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000"
+  }
+});
+
+io.on('connection', socket => {
+  socket.on('send-chat-message', message =>{
+    socket.broadcast.emit('chat-message',message)
+  })
+})
 
 
 // app.use(express.urlencoded({ extended: true }));
