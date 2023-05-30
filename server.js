@@ -16,11 +16,69 @@ const io = new Server(server, {
     origin: "http://localhost:3001"
   }
 });
+const rooms = {
+  room1: {
+    name: "room1",
+    users: [],
+    msg:[]
+    
+  },
+  room2:{
+    name: "room2",
+    users: [],
+    msg:[]
+    
+  },
+ room3:{
+    name: "room3",
+    users: [],
+    msg:[]
+    
+  }
+}
 
+// io.on('connection', socket => {
+//   socket.on('send-chat-message', (room,message) =>{
+//     socket.broadcast.emit('chat-message',message)
+//   })
+// })
 io.on('connection', socket => {
-  socket.on('send-chat-message', message =>{
-    socket.broadcast.emit('chat-message',message)
+  socket.on('joinRoom', (room, user)=>{
+    socket.join('room1')
+    rooms[room].users.push({socket:socket, username:user})
+    io.in('room1').emit('joined-room', `${user} joined the room`)
+    io.in('room1').emit('update-message-history', rooms[room].msg)
+    console.log(socket.id)
+    
   })
+  socket.on('send-chat-message', (room, message,user) => {
+    // socket.join(room)
+    // console.log(io.sockets.adapter.rooms)
+    console.log('room', room)
+    console.log(socket.id)
+    console.log(socket.rooms)
+
+    io.in('room1').emit('chat-message', {message:message, sender:user})
+    rooms[room].msg.push({message:message, sender:user})
+    console.log(rooms[room].msg)
+  })
+
+  // socket.on('disconnect', () => {
+  //   for (const key in rooms){
+  //     const users = rooms[key].users
+  //     for (let i = 0; i < users.length; i++) {
+  //       const user = users[i];
+  //       if(user == socket){
+  //         socket.leave(key)
+  //         users = users.filter((user)=>{
+  //           user != socket 
+  //         })
+  //       }
+        
+  //     }
+  //   }
+  //   socket.rooms === {}
+  // });
 })
 
 
