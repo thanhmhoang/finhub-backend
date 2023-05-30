@@ -19,9 +19,18 @@ const io = new Server(server, {
 });
 
 io.on('connection', socket => {
-  socket.on('send-chat-message', message =>{
+  socket.on('send-chat-message', (room,message) =>{
     socket.broadcast.emit('chat-message',message)
   })
+})
+io.on('connection', socket => {
+  socket.on('joinRoom', (room, user)=>{
+    socket.join(room)
+    console.log(user + ' joined ' + room)
+  })
+  // socket.on('send-chat-message', (room, message) => {
+  //   socket.to(room).emit('chat-message', message)
+  // })
 })
 
 

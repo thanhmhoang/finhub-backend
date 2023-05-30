@@ -1,9 +1,9 @@
-const io = require('socket.io')(3001)
+// const io = require('socket.io')(3001)
 
-function connection (){
-    io.on('connection', socket => {
-        socket.emit('chat-message', 'hello world')
-    })
-}
+// function connection (){
+//     io.on('connection', socket => {
+//         socket.emit('chat-message', 'hello world')
+//     })
+// }
 
-module.exports = connection;
+// module.exports = connection;
