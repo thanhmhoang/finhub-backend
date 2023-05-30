@@ -40,10 +40,10 @@ module.exports = {
   },
 
 // Add a friend 
-  addFriend(req, res) {
+  addStock(req, res) {
     User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { friends: req.params.friendId } },
+      { $addToSet: { stock: req.params.stockId } },
       { runValidators: true, new: true }
     )
       .then((user) =>
