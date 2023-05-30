@@ -1,5 +1,5 @@
 const express = require('express');
-// const routes = require('./routes');
+const routes = require('./routes');
 const db = require('./config/connection');
 const cors = require('cors')
 const { Server } = require("socket.io");
@@ -7,12 +7,13 @@ const { Server } = require("socket.io");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(routes);
 app.use(cors())
 const server = require('http').Server(app)
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000"
+    origin: "http://localhost:3001"
   }
 });
 
@@ -23,9 +24,8 @@ io.on('connection', socket => {
 })
 
 
-// app.use(express.urlencoded({ extended: true }));
-// app.use(express.json());
-// app.use(routes);
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 db.once('open', () => {
   server.listen(PORT, () => {

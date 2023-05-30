@@ -1,3 +1,4 @@
+const { uServer } = require('engine.io');
 const { User, Stock } = require('../models');
 
 module.exports = {
@@ -39,9 +40,9 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 
-// Add a friend 
+// Add a Stock
   addStock(req, res) {
-    User.findOneAndUpdate(
+    Stock.findOneAndUpdate(
       { _id: req.params.userId },
       { $addToSet: { stock: req.params.stockId } },
       { runValidators: true, new: true }
@@ -65,6 +66,38 @@ module.exports = {
           !user
             ? res.status(404).json({ message: "No User found with this ID!" })
             : res.json(user)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+  // Update a stock
+  updateStock(req, res) {
+    Stock.findOneAndUpdate(
+        { _id: req.params.userId },
+        {$set: req.body.stockId},
+        {runValidators:true, new:true}
+        )
+      .then((user) =>{
+        if (!user){
+           return res.status(404).json({ message: 'No such user with that id' })
+        }
+        res.json(uServer)
+    })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  // Delete a stock
+  deleteStock(req, res) {
+    Stock.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: {reactions:{stockId:req.params.stockId}} },
+      { runValidators: true, new: true }
+    )
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with this id!' })
+          : res.json(user)
       )
       .catch((err) => res.status(500).json(err));
   },

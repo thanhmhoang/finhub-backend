@@ -18,5 +18,5 @@ module.exports = {
           : res.json(stock)
       )
       .catch((err) => res.status(500).json(err));
-  },
-};
+  }
+}
