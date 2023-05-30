@@ -16,6 +16,6 @@ const readSchema = new Schema(
     }
 );
 
-const Read = model('Read', userSchema);
+const Read = model('Read', readSchema);
   
 module.exports = Read;
