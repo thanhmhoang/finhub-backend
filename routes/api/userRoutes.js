@@ -8,10 +8,19 @@ const {
   // deleteFriend,
   updateStock,
   deleteStock,
+  createAccount,
+  login
 } = require("../../controllers/userController.js");
 
 // /api/users
 router.route("/").get(getUsers).post(createUser);
+
+// /api/account
+router.route("/account").post(createAccount);
+
+// /api/login
+router.route("/login").post(login);
+
 
 // /api/users/:userId
 router.route("/:userId")
