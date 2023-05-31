@@ -1,5 +1,4 @@
 const router = require('express').Router();
-var request = require('request');
 require('dotenv').config()
 
 const {
