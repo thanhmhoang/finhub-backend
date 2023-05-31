@@ -7,8 +7,10 @@ const { Server } = require("socket.io");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use(cors())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(routes);
+app.use(cors())
 const server = require('http').Server(app)
 
 const io = new Server(server, {
@@ -80,10 +82,6 @@ io.on('connection', socket => {
     socket.rooms === {}
   });
 })
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(routes);
 
 db.once('open', () => {
   server.listen(PORT, () => {
