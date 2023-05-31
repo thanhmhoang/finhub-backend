@@ -5,20 +5,19 @@ const userSchema = new Schema(
     {
         username: {
             type: String,
-            required: true,
+            required: "Username is required",
             unique: true,
             trim: true,
         },
         email: {
             type: String,
-            required: true,
+            required: "Email is required",
             unique: true,
             match: [/.+@.+\..+/, "Must match an email address!"]
         },
         password: {
             type: String,
             required: true,
-            hashed: true,
         },
         investor_type: {
             type: String,
