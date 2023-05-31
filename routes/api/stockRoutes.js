@@ -1,4 +1,6 @@
 const router = require('express').Router();
+var request = require('request');
+require('dotenv').config()
 
 const {
     getStocks,
@@ -15,10 +17,9 @@ router
 
 // To get intra day info
 'use strict';
-var request = require('request');
 
 // replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
-var url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=process.env.API_KEY';
+var url = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=AAPL&interval=5min&apikey=${process.env.API_KEY}`;
 
 request.get({
     url: url,
