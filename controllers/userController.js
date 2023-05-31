@@ -1,4 +1,5 @@
 const { User, Stock } = require('../models');
+const jwt = require("jsonwebtoken")
 
 module.exports = {
 // Get all users
@@ -114,4 +115,60 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-};
+  // Create account
+  createAccount(req,res) {
+    User.create({
+        username:req.body.username,
+        password:req.body.password
+    }).then(newser=>{
+        const token = jwt.sign({
+            username:newser.username,
+            userId:newser.id
+        },process.env.JWT_SECRET,{
+            expiresIn:"2h"
+        })
+        res.json({
+            token,
+            user:newser
+        })
+    }).catch(err=>{
+        console.log(err);
+        res.status(500).json({
+            msg:"womp womp",
+            err
+        })
+    })
+},
+// login
+login(req,res) {
+  console.log('req.body: ',req.body)
+  User.findOne({
+      where:{
+      username:req.body.username
+  }}).then(foundUser=>{
+      console.log(foundUser)
+      if(!foundUser){
+          return res.status(401).json({msg:"invalid login"})
+      }else if(!bcrypt.compareSync(req.body.password,foundUser.password)){
+          return res.status(401).json({msg:"invalid login"})
+      } else{
+          const token = jwt.sign({
+              username:foundUser.username,
+              userId:foundUser.id
+          },process.env.JWT_SECRET,{
+              expiresIn:"2h"
+          })
+          res.json({
+              token,
+              user:foundUser
+          })
+      }
+  }).catch(err=>{
+      console.log(err);
+      res.status(500).json({
+          msg:"womp womp",
+          err
+      })
+  })
+}
+}

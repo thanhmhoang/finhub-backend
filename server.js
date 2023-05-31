@@ -83,8 +83,6 @@ io.on('connection', socket => {
   });
 })
 
-
-
 db.once('open', () => {
   server.listen(PORT, () => {
     console.log(`API server running on port ${PORT}!`);
