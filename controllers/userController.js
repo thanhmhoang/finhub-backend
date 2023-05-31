@@ -20,15 +20,30 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
 // Create a user
-createUser(req, res) {
-  console.log(req.body)
-  User.create(req.body)
-    .then((user) => res.json(user))
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json(err);
-    });
-},
+  createUser(req, res) {
+    User.create(req.body)
+      .then((user) => res.json(user))
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+  },
+  
+// Update a bio
+  updateBio(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId })
+    .then((user) =>{
+        if (!user){
+           return res.status(404).json({ message: 'No such user with that id' })
+        }
+        res.json(uServer)
+    })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+
 // Delete a user
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
