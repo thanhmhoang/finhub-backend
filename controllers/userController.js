@@ -1,4 +1,3 @@
-const { uServer } = require('engine.io');
 const { User, Stock } = require('../models');
 
 module.exports = {
@@ -36,7 +35,6 @@ module.exports = {
         if (!user){
            return res.status(404).json({ message: 'No such user with that id' })
         }
-        res.json(uServer)
     })
       .catch((err) => {
         console.log(err);
@@ -96,7 +94,6 @@ module.exports = {
         if (!user){
            return res.status(404).json({ message: 'No such user with that id' })
         }
-        res.json(uServer)
     })
       .catch((err) => {
         console.log(err);
