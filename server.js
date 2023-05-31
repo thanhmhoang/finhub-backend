@@ -7,10 +7,10 @@ const { Server } = require("socket.io");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(routes);
-app.use(cors())
 const server = require('http').Server(app)
 
 const io = new Server(server, {
@@ -31,7 +31,7 @@ const rooms = {
     msg:[]
     
   },
- room3:{
+  room3:{
     name: "room3",
     users: [],
     msg:[]
@@ -58,7 +58,7 @@ io.on('connection', socket => {
     // io.in('room1').emit('chat-message', rooms[room].msg)
     console.log(rooms[room].msg)
   })
-
+  
   socket.on('create-new-room', (roomName)=>{
     rooms[roomName] = {name: roomName, users:[], msg:[]}
     io.emit('update-room-list',roomName)
