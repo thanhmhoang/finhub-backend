@@ -28,6 +28,22 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
+  
+// Update a bio
+  updateBio(req, res) {
+    User.findOneAndUpdate({ _id: req.params.userId })
+    .then((user) =>{
+        if (!user){
+           return res.status(404).json({ message: 'No such user with that id' })
+        }
+        res.json(uServer)
+    })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+
 // Delete a user
   deleteUser(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
