@@ -7,7 +7,6 @@ const { Server } = require("socket.io");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use(routes);
 app.use(cors())
 const server = require('http').Server(app)
 
@@ -23,9 +22,9 @@ io.on('connection', socket => {
   })
 })
 
-
-app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(routes);
 
 db.once('open', () => {
   server.listen(PORT, () => {
