@@ -9,12 +9,12 @@ async function getStockInfo() {
 
     const symbol = tickerEl.toUpperCase();
     console.log("symbol", symbol);
-    const api_url = `https://api.stockdata.org/v1/data/quote?symbols=${symbol}&api_token=s2nHl6p4xvGZzDbhYoFmKAJP6FZi9xtaHxgSTtlD`
+    const api_url = `https://api.stockdata.org/v1/data/quote?symbols=${symbol}&api_token=${process.env.API_TOKEN}`
 
     const response = await fetch(api_url);
     const data = await response.json();
 
-    const { data: [{ name, ticker, price, day_high, day_low, day_open, market_cap, previous_close_price, day_change, volume }]} = data;
+    const { name, ticker, price, day_high, day_low, day_open, market_cap, previous_close_price, day_change, volume } = data;
 }
 
 
