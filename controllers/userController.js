@@ -1,6 +1,7 @@
 const { User, Stock } = require('../models');
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcrypt')
+require('dotenv').config()
 
 module.exports = {
 // Get all accounts
@@ -157,8 +158,6 @@ module.exports = {
         })
     })
 },
-
-
 
 // login
 login(req,res) {

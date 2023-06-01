@@ -10,7 +10,6 @@ const {
   deleteStock,
   login,
   verifyToken,
-  createAccount,
   getUserByUsername,
 } = require("../../controllers/userController.js");
 
