@@ -9,7 +9,9 @@ const {
   updateStock,
   deleteStock,
   login,
-  verifyToken
+  verifyToken,
+  createAccount,
+  getUserByUsername,
 } = require("../../controllers/userController.js");
 
 // /api/users
@@ -26,6 +28,9 @@ router.route("/login")
 router.route("/:userId")
 .get(getSingleAccount)
 .delete(deleteAccount);
+
+router.route("/username/:userName")
+.get(getUserByUsername)
 
 // /api/users/:userId/stocks/:stockId
 router.route("/:userId/stock/:stockId")

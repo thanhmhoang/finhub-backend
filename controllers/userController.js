@@ -20,6 +20,28 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
+  getUserByUsername(req, res) {
+    console.log(req.params.userName)
+    User.findOne({ username: req.params.userName})
+      .then((user) =>
+        !user
+          ? res.status(404).json({ message: 'No user with that username' })
+          : res.json(user)
+      )
+      .catch((err) =>{
+        console.log(err)
+        res.status(500).json(err);
+      }) 
+  },
+// Create a user
+  createUser(req, res) {
+    User.create(req.body)
+      .then((user) => res.json(user))
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+  },
   
 // Update a bio
   updateBio(req, res) {
