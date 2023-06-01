@@ -18,5 +18,14 @@ module.exports = {
           : res.json(stock)
       )
       .catch((err) => res.status(500).json(err));
-  }
+  },
+
+  createStock(req, res) {
+    Stock.create(req.body)
+      .then((stock) => res.json(stock))
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+  },
 }

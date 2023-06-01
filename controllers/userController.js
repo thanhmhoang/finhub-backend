@@ -22,6 +22,7 @@ module.exports = {
   getUserByUsername(req, res) {
     console.log(req.params.userName)
     User.findOne({ username: req.params.userName})
+    .populate('stocks')
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that username' })
@@ -70,9 +71,9 @@ module.exports = {
 
 // Add a Stock
   addStock(req, res) {
-    Stock.findOneAndUpdate(
+    User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $addToSet: { stock: req.params.stockId } },
+      { $addToSet: { stocks: req.params.stockId } },
       { runValidators: true, new: true }
     )
       .then((user) =>
@@ -116,9 +117,9 @@ module.exports = {
   },
   // Delete a stock
   deleteStock(req, res) {
-    Stock.findOneAndUpdate(
+    User.findOneAndUpdate(
       { _id: req.params.userId },
-      { $pull: {reactions:{stockId:req.params.stockId}} },
+      { $pull: {stocks:{$in:req.params.stockId}}},
       { runValidators: true, new: true }
     )
       .then((user) =>

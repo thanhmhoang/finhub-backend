@@ -4,10 +4,11 @@ require('dotenv').config()
 const {
     getStocks,
     getSingleStock,
+    createStock,
 } = require('../../controllers/stockController.js');
 
 // /api/stocks
-router.route('/').get(getStocks);
+router.route('/').get(getStocks).post(createStock);
 
 // /api/stocks/:stockId
 router
