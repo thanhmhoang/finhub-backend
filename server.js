@@ -47,6 +47,8 @@ io.on('connection', socket => {
     roomName.push(rooms[key].name)
   }
   socket.emit('populate-rooms',roomName)
+
+  
   socket.on('joinRoom', (room, user)=>{
     socket.leaveAll()
     socket.join(room)
