@@ -1,15 +1,16 @@
 const { User, Stock } = require('../models');
 const jwt = require("jsonwebtoken")
+const bcrypt = require('bcrypt')
 
 module.exports = {
-// Get all users
-  getUsers(req, res) {
+// Get all accounts
+  getAccounts(req, res) {
     User.find()
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
-// Get a user
-  getSingleUser(req, res) {
+// Get an account
+  getSingleAccount(req, res) {
     User.findOne({ _id: req.params.userId })
       .select('-__v')
       .then((user) =>
@@ -56,8 +57,8 @@ module.exports = {
       });
   },
 
-// Delete a user
-  deleteUser(req, res) {
+// Delete an account
+  deleteAccount(req, res) {
     User.findOneAndDelete({ _id: req.params.userId })
       .then((user) =>
         !user
@@ -130,10 +131,13 @@ module.exports = {
   },
   // Create account
   createAccount(req,res) {
-    User.create({
-        username:req.body.username,
-        password:req.body.password
-    }).then(newser=>{
+
+    // example
+    // const token = jwt.sign({ user }, process.env.JWT_SECRET)
+
+    User.create(
+        req.body
+    ).then(newser=>{
         const token = jwt.sign({
             username:newser.username,
             userId:newser.id
@@ -152,6 +156,9 @@ module.exports = {
         })
     })
 },
+
+
+
 // login
 login(req,res) {
   console.log('req.body: ',req.body)
@@ -183,5 +190,24 @@ login(req,res) {
           err
       })
   })
+},
+// Verify token
+verifyToken(req,res){
+
+  // example
+  // const decodedToken = jwt.verify(token, 'tacocat')
+
+  const token = req.headers.authorization?.split(" ")[1];
+  try {
+      const data = jwt.verify(token,process.env.JWT_SECRET)
+      User.findByPk(data.userId,{
+          include:[Stock]
+      }).then(foundUser=>{
+          res.json(foundUser)
+      })
+  } catch (err) {
+      console.log(err);
+      res.status(403).json({msg:"bad token",err})
+  }
 }
 }
