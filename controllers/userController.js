@@ -7,13 +7,15 @@ module.exports = {
 // Get all accounts
   getAccounts(req, res) {
     User.find()
+    .populate('stocks')
       .then((users) => res.json(users))
       .catch((err) => res.status(500).json(err));
   },
 // Get an account
   getSingleAccount(req, res) {
     User.findOne({ _id: req.params.userId })
-      .select('-__v')
+    .populate('stocks')
+    .select('-__v')
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that ID' })
@@ -22,9 +24,8 @@ module.exports = {
       .catch((err) => res.status(500).json(err));
   },
   getUserByUsername(req, res) {
-    console.log(req.params.userName)
     User.findOne({ username: req.params.userName})
-    .populate('stocks')
+    .populate("stocks")
       .then((user) =>
         !user
           ? res.status(404).json({ message: 'No user with that username' })
@@ -133,10 +134,6 @@ module.exports = {
   },
   // Create account
   createAccount(req,res) {
-
-    // example
-    // const token = jwt.sign({ user }, process.env.JWT_SECRET)
-
     User.create(
         req.body
     ).then(newser=>{
@@ -161,11 +158,8 @@ module.exports = {
 
 // login
 login(req,res) {
-  console.log('req.body: ',req.body)
-  User.findOne({
-      where:{
-      username:req.body.username
-  }}).then(foundUser=>{
+  User.findOne({username:req.body.username})
+  .then(foundUser=>{
       console.log(foundUser)
       if(!foundUser){
           return res.status(401).json({msg:"invalid login"})
@@ -174,7 +168,7 @@ login(req,res) {
       } else{
           const token = jwt.sign({
               username:foundUser.username,
-              userId:foundUser.id
+              userId:foundUser._id
           },process.env.JWT_SECRET,{
               expiresIn:"2h"
           })
@@ -193,21 +187,22 @@ login(req,res) {
 },
 // Verify token
 verifyToken(req,res){
-
-  // example
-  // const decodedToken = jwt.verify(token, 'tacocat')
-
+  // console.log(req.headers)
   const token = req.headers.authorization?.split(" ")[1];
+  // console.log(req.headers.authorization.split(" ")[1])
+  console.log(token)
   try {
-      const data = jwt.verify(token,process.env.JWT_SECRET)
-      User.findByPk(data.userId,{
-          include:[Stock]
-      }).then(foundUser=>{
-          res.json(foundUser)
+    const data = jwt.verify(token,process.env.JWT_SECRET)
+    console.log(data)
+    User.findOne({ username: data.username})
+    .populate('stocks')
+      .then(user =>{
+        res.json(user)
       })
-  } catch (err) {
-      console.log(err);
-      res.status(403).json({msg:"bad token",err})
-  }
+}catch (err){
+  console.log(err)
+  res.status(403).json({msg:"bad token",err})
+
+}
 }
 }

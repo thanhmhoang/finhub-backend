@@ -5,7 +5,6 @@ const {
   createAccount,
   deleteAccount,
   addStock,
-  // deleteFriend,
   updateStock,
   deleteStock,
   login,
@@ -13,14 +12,15 @@ const {
   getUserByUsername,
 } = require("../../controllers/userController.js");
 
+
+router.route("/verifytoken").get(verifyToken)
+router.route("/login").post(login);
 // /api/users
 router.route("/")
 .get(getAccounts)
 .post(createAccount);
 
 // /api/login
-router.route("/login")
-.post(login);
 
 
 // /api/users/:userId
