@@ -22,15 +22,15 @@ const userSchema = new Schema(
         },
         investor_type: {
             type: String,
-            required: true,
+            // required: true,
         },
         fav_stock: {
             type: String,
-            required: true,
+            // required: true,
         },
         description: {
             type: String,
-            required: true,
+            // required: true,
             maxlength: 280,
         },
         stocks: [
@@ -48,7 +48,6 @@ const userSchema = new Schema(
     }
 );
 userSchema.pre("save", function () {
-    console.log('password', this.password)
     this.password = bcrypt.hashSync(this.password,4);
     return this.password
 
