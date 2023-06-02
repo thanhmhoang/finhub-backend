@@ -197,7 +197,8 @@ verifyToken(req,res){
     User.findOne({ username: data.username})
     .populate('stocks')
       .then(user =>{
-        res.json(user)
+        console.log(user)
+        res.status(200).json(user)
       })
 }catch (err){
   console.log(err)
