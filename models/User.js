@@ -20,17 +20,24 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+        profile_pic: {
+            type: String,
+            default:''
+        },
         investor_type: {
             type: String,
+            default: ''
             // required: true,
         },
         fav_stock: {
             type: String,
+            default:''
             // required: true,
         },
         description: {
             type: String,
             // required: true,
+            default:'',
             maxlength: 280,
         },
         stocks: [
