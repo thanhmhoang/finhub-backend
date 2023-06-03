@@ -48,11 +48,25 @@ module.exports = {
   
 // Update a bio
   updateBio(req, res) {
-    User.findOneAndUpdate({ _id: req.params.userId })
+    User.findOneAndUpdate({ username: req.params.userName},req.body,{new:true})
     .then((user) =>{
         if (!user){
            return res.status(404).json({ message: 'No such user with that id' })
         }
+        res.status(200).json(user)
+    })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  },
+  updateProfilePic(req, res) {
+    User.findOneAndUpdate({ username: req.params.userName },{profile_pic:req.body.profile_pic},{new:true})
+    .then((user) =>{
+        if (!user){
+           return res.status(404).json({ message: 'No such user with that id' })
+        }
+        res.status(200).json(user)
     })
       .catch((err) => {
         console.log(err);

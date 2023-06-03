@@ -10,6 +10,8 @@ const {
   login,
   verifyToken,
   getUserByUsername,
+  updateProfilePic,
+  updateBio
 } = require("../../controllers/userController.js");
 
 
@@ -18,7 +20,8 @@ router.route("/login").post(login);
 // /api/users
 router.route("/")
 .get(getAccounts)
-.post(createAccount);
+.post(createAccount)
+
 
 // /api/login
 
@@ -30,6 +33,9 @@ router.route("/:userId")
 
 router.route("/username/:userName")
 .get(getUserByUsername)
+
+router.route("/profilepic/:userName").put(updateProfilePic)
+router.route("/bio/:userName").put(updateBio)
 
 // /api/users/:userId/stocks/:stockId
 router.route("/:userId/stock/:stockId")
