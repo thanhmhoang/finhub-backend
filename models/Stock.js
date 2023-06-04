@@ -5,15 +5,7 @@ const stockSchema = new Schema(
     ticker: {
       type: String,
       required: true,
-      unique:true,
-    },
-    tickerId: {
-      type: Schema.Types.ObjectId,
-      default: () => new Types.ObjectId(),
-    },
-    username: {
-      type: String,
-      // required: true,
+      unique: true
     },
   },
   {
