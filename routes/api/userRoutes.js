@@ -1,28 +1,47 @@
 const router = require("express").Router();
 const {
-  getUsers,
-  getSingleUser,
-  createUser,
-  deleteUser,
+  getAccounts,
+  getSingleAccount,
+  createAccount,
+  deleteAccount,
   addStock,
-  // deleteFriend,
   updateStock,
   deleteStock,
+  login,
+  verifyToken,
+  getUserByUsername,
+  updateProfilePic,
+  updateBio
 } = require("../../controllers/userController.js");
 
+
+router.route("/verifytoken").get(verifyToken)
+router.route("/login").post(login);
 // /api/users
-router.route("/").get(getUsers).post(createUser);
+router.route("/")
+.get(getAccounts)
+.post(createAccount)
+
+
+// /api/login
+
 
 // /api/users/:userId
 router.route("/:userId")
-.get(getSingleUser)
-.delete(deleteUser);
+.get(getSingleAccount)
+.delete(deleteAccount);
+
+router.route("/username/:userName")
+.get(getUserByUsername)
+
+router.route("/profilepic/:userName").put(updateProfilePic)
+router.route("/bio/:userName").put(updateBio)
 
 // /api/users/:userId/stocks/:stockId
 router.route("/:userId/stock/:stockId")
 .post(addStock)
 .delete(deleteStock)
-.post(updateStock);
+.put(updateStock);
 
 
 module.exports = router;

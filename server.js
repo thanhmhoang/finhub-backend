@@ -7,15 +7,17 @@ const { Server } = require("socket.io");
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use(cors())
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors())
 app.use(routes);
+
 const server = require('http').Server(app)
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://finnhub.netlify.app/",
   }
 });
 const rooms = {
@@ -45,6 +47,8 @@ io.on('connection', socket => {
     roomName.push(rooms[key].name)
   }
   socket.emit('populate-rooms',roomName)
+
+  
   socket.on('joinRoom', (room, user)=>{
     socket.leaveAll()
     socket.join(room)
@@ -82,8 +86,6 @@ io.on('connection', socket => {
     socket.rooms === {}
   });
 })
-
-
 
 db.once('open', () => {
   server.listen(PORT, () => {

@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const bcrypt = require('bcrypt')
 
 // Schema to create User model
 const userSchema = new Schema(
@@ -19,17 +20,24 @@ const userSchema = new Schema(
             type: String,
             required: true,
         },
+        profile_pic: {
+            type: String,
+            default:''
+        },
         investor_type: {
             type: String,
-            required: true,
+            default: ''
+            // required: true,
         },
         fav_stock: {
             type: String,
-            required: true,
+            default:''
+            // required: true,
         },
         description: {
             type: String,
-            required: true,
+            // required: true,
+            default:'',
             maxlength: 280,
         },
         stocks: [
@@ -46,6 +54,11 @@ const userSchema = new Schema(
         id: false,
     }
 );
+userSchema.pre("save", function () {
+    this.password = bcrypt.hashSync(this.password,4);
+    return this.password
+
+})
 
 const User = model('User', userSchema);
   

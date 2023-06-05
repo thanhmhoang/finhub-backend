@@ -18,5 +18,24 @@ module.exports = {
           : res.json(stock)
       )
       .catch((err) => res.status(500).json(err));
-  }
+  },
+     getStockTicker(req, res) {
+    Stock.findOne({ ticker: req.params.tickerName })
+      .select('-__v')
+      .then((stock) =>
+        !stock
+          ? res.status(404).json({ message: 'No stock with that ID' })
+          : res.json(stock)
+      )
+      .catch((err) => res.status(500).json(err));
+  },
+
+  createStock(req, res) {
+    Stock.create(req.body)
+      .then((stock) => res.json(stock))
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).json(err);
+      });
+  },
 }
