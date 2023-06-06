@@ -7,6 +7,30 @@ const stockSchema = new Schema(
       required: true,
       unique: true
     },
+    price: {
+      type: String,
+      default:''
+    },
+    high: {
+      type: String,
+      default:''
+    },
+    low: {
+      type: String,
+      default:''
+    },
+    open: {
+      type: String,
+      default:''
+    },
+    day_change: {
+      type: String,
+      default:''
+    },
+    volume: {
+      type: String,
+      default:''
+    },
   },
   {
     toJSON: {

@@ -17,9 +17,8 @@ const server = require('http').Server(app)
 
 const io = new Server(server, {
   cors: {
-
-    
-    origin: "https://finnhub.netlify.app",
+    origin: "http://localhost:3000",
+    // origin: "https://finnhub.netlify.app",
   }
 });
 const rooms = {
