@@ -19,7 +19,8 @@ module.exports = {
       )
       .catch((err) => res.status(500).json(err));
   },
-     getStockTicker(req, res) {
+
+   getStockTicker(req, res) {
     Stock.findOne({ ticker: req.params.tickerName })
       .select('-__v')
       .then((stock) =>
@@ -38,4 +39,18 @@ module.exports = {
         return res.status(500).json(err);
       });
   },
+
+  updateStock(req, res) {
+    Stock.findOneAndUpdate({ ticker: req.params.tickerName},req.body,{new:true})
+    .then((stock) =>{
+        if (!stock){
+           return res.status(404).json({ message: 'No such stock with that id' })
+        }
+        res.status(200).json(stock)
+    })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json(err);
+      });
+  }
 }
