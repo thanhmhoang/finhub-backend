@@ -17,25 +17,25 @@ const server = require('http').Server(app)
 
 const io = new Server(server, {
   cors: {
-    // origin: "http://localhost:3000",
-    origin: "https://finnhub.netlify.app",
+    origin: "http://localhost:3000",
+    // origin: "https://finnhub.netlify.app",
   }
 });
 const rooms = {
-  room1: {
-    name: "room1",
+  calls: {
+    name: "calls",
     users: [],
     msg:[]
     
   },
-  room2:{
-    name: "room2",
+  puts:{
+    name: "puts",
     users: [],
     msg:[]
     
   },
-  room3:{
-    name: "room3",
+  options:{
+    name: "options",
     users: [],
     msg:[]
     
@@ -48,6 +48,10 @@ io.on('connection', socket => {
     roomName.push(rooms[key].name)
   }
   socket.emit('populate-rooms',roomName)
+
+  socket.on('send-room-list',()=>{
+    socket.emit('here-are-the-rooms',roomName)
+  })
 
   
   socket.on('joinRoom', (room, user)=>{
