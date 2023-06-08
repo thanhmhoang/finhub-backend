@@ -43,13 +43,14 @@ const rooms = {
 }
 
 io.on('connection', socket => {
-  const roomName = []
-  for(const key in rooms){
-    roomName.push(rooms[key].name)
-  }
-  socket.emit('populate-rooms',roomName)
-
+  // socket.emit('populate-rooms',roomName)
+  
   socket.on('send-room-list',()=>{
+    const roomName = []
+    for(const key in rooms){
+      roomName.push(rooms[key].name)
+    }
+    console.log('sent a room request')
     socket.emit('here-are-the-rooms',roomName)
   })
 
