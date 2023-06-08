@@ -22,20 +22,20 @@ const io = new Server(server, {
   }
 });
 const rooms = {
-  room1: {
-    name: "room1",
+  shorts: {
+    name: "shorts",
     users: [],
     msg:[]
     
   },
-  room2:{
-    name: "room2",
+  long:{
+    name: "long",
     users: [],
     msg:[]
     
   },
-  room3:{
-    name: "room3",
+  options:{
+    name: "options",
     users: [],
     msg:[]
     
@@ -43,11 +43,16 @@ const rooms = {
 }
 
 io.on('connection', socket => {
-  const roomName = []
-  for(const key in rooms){
-    roomName.push(rooms[key].name)
-  }
-  socket.emit('populate-rooms',roomName)
+  // socket.emit('populate-rooms',roomName)
+  
+  socket.on('send-room-list',()=>{
+    const roomName = []
+    for(const key in rooms){
+      roomName.push(rooms[key].name)
+    }
+    console.log('sent a room request')
+    socket.emit('here-are-the-rooms',roomName)
+  })
 
   
   socket.on('joinRoom', (room, user)=>{
