@@ -22,14 +22,14 @@ const io = new Server(server, {
   }
 });
 const rooms = {
-  calls: {
-    name: "calls",
+  shorts: {
+    name: "shorts",
     users: [],
     msg:[]
     
   },
-  puts:{
-    name: "puts",
+  long:{
+    name: "long",
     users: [],
     msg:[]
     
