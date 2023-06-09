@@ -22,7 +22,7 @@ const userSchema = new Schema(
         },
         profile_pic: {
             type: String,
-            default:''
+            default:'https://res.cloudinary.com/dykifpnqi/image/upload/v1686335476/blank-profile-picture-ga0d2566f2_1280_ae4a5i.png'
         },
         investor_type: {
             type: String,
