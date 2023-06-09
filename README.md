@@ -40,6 +40,21 @@ To use this application, follow this link: https://finnhub.netlify.app
 
 <img src="./assets/Signals.png">
 
+## GitHub
+
+Front-End: https://github.com/brenthouston/finnhub-frontend
+
+Back-End: https://github.com/thanhmhoang/finhub-backend
+
+Ian Danas: https://github.com/Ian-Danas
+
+Thanh Hoang: https://github.com/thanhmhoang
+
+Brent Houston: https://github.com/brenthouston
+
+Alex Moriyama: https://github.com/alexmoriyama
+
+
 ## Credits
 
 Henry Weigand - UW Bootcamp TA
